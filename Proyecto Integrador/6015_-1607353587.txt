@@ -1,0 +1,170 @@
+CREAte table personas (
+   id_persona INT PRIMARY KEY NOT NULL,
+   nombres    text, 
+   ap_paterno text, 
+   ap_materno text, 
+   documento  text, 
+   sexo       text
+);
+
+
+CREAte table clientes (
+   id_cliente     INT PRIMARY KEY NOT NULL,
+   codigo_cliente text, 
+   tipo_cliente   text, 
+   id_persona_f   text,
+FOREIGN KEY(id_persona_f) REFERENCES personas(id_persona)
+);
+
+
+
+CREAte table trabajador (
+   id_trabajador INT PRIMARY KEY NOT NULL,
+   codigo_trabajador   text, 
+   area_trabajador     text, 
+   usuario             text, 
+   pasword             text, 
+   estado              text, 
+   rol                 text, 
+   id_persona_f        text,
+FOREIGN KEY(id_persona_f) REFERENCES personas(id_persona)
+);
+
+
+
+insert into personas(
+id_persona, nombres, ap_paterno, ap_materno, documento, sexo
+) values(
+'1','Cristian','Aguirre','Calancho','12345678','M'
+);
+
+insert into personas(
+id_persona, nombres, ap_paterno, ap_materno, documento, sexo
+) values(
+'2','Laydi','Aguirre','Calancho','23456789','F'
+);
+
+insert into personas(
+id_persona, nombres, ap_paterno, ap_materno, documento, sexo
+) values(
+'3','Ciro','Aguirre','Calancho','34567890','F'
+);
+
+insert into personas(
+id_persona, nombres, ap_paterno, ap_materno, documento, sexo
+) values(
+'4','Diego','Aguirre','Calancho','45678901','F'
+);
+
+
+insert into clientes (id_cliente, codigo_cliente, tipo_cliente,id_persona_f)
+values (
+'1','999','A','1'
+);
+
+insert into trabajador  (id_trabajador, codigo_trabajador, area_trabajador, usuario, pasword, estado, rol, id_persona_f)
+values (
+'1','666','Ventas','laydi','laydi','1','CAJERO','2'
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREAte table categorias(
+   id_categoria INT PRIMARY KEY NOT NULL,
+   nombre_categoria    text,
+   codigo_categoria       text
+);
+
+
+insert into categorias(id_categoria, nombre_categoria, codigo_categoria) values ('1','Bebidas','B01');
+
+insert into categorias(id_categoria, nombre_categoria, codigo_categoria) values ('2','Alimentos','A01');
+
+
+
+
+
+CREAte table productos (
+   id_producto      INT PRIMARY KEY NOT NULL,
+   nombre_producto  text, 
+   tipo_producto    text, 
+   precio_producto  numeric,  
+   stock            real,
+   controla_stock   text,
+   id_categoria     text, 
+FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
+);
+
+
+insert into productos ( id_producto,  nombre_producto, 
+   tipo_producto, precio_producto,  
+   stock,   controla_stock,   id_categoria)
+values('1','Folder Manila','No Peligroso','1.5','100','SI','6');
+
+insert into productos ( id_producto,  nombre_producto, 
+   tipo_producto, precio_producto,  
+   stock,   controla_stock,   id_categoria)
+values('2','Perforador','No Peligroso','5','100','SI','6');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+select 
+
+a.id_producto, a.nombre_producto,a.precio_producto, 	a.stock, a.tipo_producto, a.id_categoria, a.controla_stock, b.nombre_categoria
+
+from productos a, categorias b
+where a.id_categoria = b.id_categoria
+;
+
+
+CREAte table ventas(
+   id_venta     INT PRIMARY KEY NOT NULL,
+   serie    text, 
+   numero   text, 
+   total    numeric,
+   subtotal numeric,
+   igv      numeric,
+   fecha    text,
+   estado   text,
+   id_cliente_f   text,
+FOREIGN KEY (id_cliente_f) REFERENCES clientes(id_cliente)
+);
+
+
+CREAte table detalle_venta(
+   id_detalle      INT PRIMARY KEY NOT NULL,
+   cantidad        numeric, 
+   id_producto     text,
+   precio_unitario numeric,
+   subtotal        numeric,
+   id_venta_f      text,
+FOREIGN KEY (id_venta_f) REFERENCES ventas (id_venta)
+);
+
